@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <stdlib.h>     // for exit()
 #include <time.h>       // for clock()
 
 #include <netdb.h>      // network database management
@@ -19,7 +19,7 @@ int verify_key(sock_fd)
 }
 void kxchg(int sock_fd)
 {
-	return 1;
+	//return 1;
 		
 }
 
@@ -52,7 +52,7 @@ int doprocessing(int sock_fd)
 	if(n<0)
 	{
 		perror("Error reading from client socket");
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 
 	if(is_view_or_bid(buffer_in))
@@ -83,13 +83,14 @@ int main(int argc, char *argv[])
 	int serv_fd, cli_fd, portno, n;
 	struct sockaddr_in serv_addr, cli_addr;
 	pid_t pid;
+	
 	/* creation of socket */
 	serv_fd = socket(AF_INET, SOCK_STREAM, 0);
 
 	if(serv_fd < 0)
 	{
 		perror("Couldn't create socket");
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 
 	/* Initialise socket structure */
@@ -103,7 +104,7 @@ int main(int argc, char *argv[])
 	if(bind(serv_fd, (struct sockaddr *)&serv_addr, sizeof(serv_addr))==-1)
 	{
 		perror("Error binding name to socket");
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 
 	/* invoking the program for key exchange */
@@ -126,7 +127,7 @@ int main(int argc, char *argv[])
 	if(cli_fd < 0)
 	{
 		perror("Erron in accepting client");
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 
 	/* Create child process */
@@ -135,7 +136,7 @@ int main(int argc, char *argv[])
 	if(pid<0)
 	{
 		perror("Error in creating child process");
-		exit(EXIT_FAILURE);
+		exit(0);
 	}
 
 	if(pid==0)
@@ -143,7 +144,7 @@ int main(int argc, char *argv[])
 		/* This is the child process*/
 		close(serv_fd);
 		doprocessing(cli_fd);
-		exit(EXIT_SUCCESS);
+		exit(1);
 	}
 
 	else
