@@ -1,0 +1,10 @@
+*.o
+*~
+*.swp
+*.orig
+*.bak
+*.log
+*.d
+*.a
+*.so
+*/test/*

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>     // for exit()
 #include <time.h>       // for clock()
+#include <string.h>     // for memset()
 
 #include <netdb.h>      // network database management
 #include <netinet/in.h> // internet address family
@@ -11,6 +12,16 @@
  *          consists of 2 clients(2 bidders, 2 authorised viewers)
  *          and 1 server. See README.md for details
  */
+int make_bid()
+{
+    return 1;
+}
+
+void get_bids()
+{
+    
+}
+
 
 int verify_key(sock_fd)
 {
@@ -42,12 +53,13 @@ int is_view_or_bid(char *buffer)
 int doprocessing(int sock_fd)
 {
 	int n;
-	char buffer_in[256], buffer_out[256];
-	memset(buffer_in, 0, sizeof(buffer_in));
-	memset(buffer_out, 0, sizeof(buffer_out));
+	char *buffer_in = (char *)malloc(256*sizeof(char));
+	char *buffer_out = (char *)malloc(256*sizeof(char));
+	buffer_in = memset(buffer_in, 0, sizeof(buffer_in));
+	buffer_out = memset(buffer_out, 0, sizeof(buffer_out));
 
 	/* read into buffer from socket file descriptor*/
-	n = read(sock_fd, buffer, sizeof(buffer));
+	n = read(sock_fd, buffer_in, sizeof(buffer_in));
 
 	if(n<0)
 	{
@@ -72,7 +84,7 @@ int doprocessing(int sock_fd)
 		if(time_in_sec()>30)
 		{
 			get_bids(&buffer_out);
-			n = write(sock_fd, buffer_out);
+			n = write(sock_fd, buffer_out, sizeof(buffer_out));
 			return n;
 		}
 	}
@@ -94,7 +106,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Initialise socket structure */
-	serv_addr = memset((char *)&serv_add, 0, sizeof(serv_add)); // fill with zeros
+	memset((char *)&serv_addr, 0, sizeof(serv_addr)); // fill with zeros
 	portno = 5001;
 	serv_addr.sin_family        = AF_INET;
 	serv_addr.sin_addr.s_addr   = INADDR_ANY;
@@ -116,13 +128,12 @@ int main(int argc, char *argv[])
 	/* Now start listening for the clients, here process will
  	* go in sleep mode and will wait for the incoming connection
  	*/
-	listen(serv_fd,, 5);
-	clilen = sizeof(cli_addr);
-
+	listen(serv_fd, 5);
+	socklen_t clilen = sizeof(cli_addr);
 	while(1)
 	{
 	/* Accept actual connection from the client */
-	cli_fd = accept(sock_fd, (struct sockaddr *)&cli_addr, sizeof(cli_addr));
+	cli_fd = accept(serv_fd, (struct sockaddr *)&cli_addr, &clilen);
 
 	if(cli_fd < 0)
 	{
