@@ -7,88 +7,12 @@
 #include <netinet/in.h> // internet address family
 
 #include <unistd.h>     // for fork and pid_t
+#include "utils/utils.h"// for doprocessing, kxchg, make_bid, is_view_or_bid
 /*
  * @file    A secure bidding system
  *          consists of 2 clients(2 bidders, 2 authorised viewers)
  *          and 1 server. See README.md for details
  */
-int make_bid()
-{
-    return 1;
-}
-
-void get_bids()
-{
-    
-}
-
-
-int verify_key(sock_fd)
-{
-	/* verify code here */
-	return 1;
-}
-void kxchg(int sock_fd)
-{
-	//return 1;
-		
-}
-
-double time_in_sec()
-{
-	return clock()*1.0/CLOCKS_PER_SEC;
-}
-
-char* key()
-{
-	return "server";
-}
-
-int is_view_or_bid(char *buffer)
-{
-	/* returns 1 if bidder identified */
-	return 1;
-}
-
-int doprocessing(int sock_fd)
-{
-	int n;
-	char *buffer_in = (char *)malloc(256*sizeof(char));
-	char *buffer_out = (char *)malloc(256*sizeof(char));
-	buffer_in = memset(buffer_in, 0, sizeof(buffer_in));
-	buffer_out = memset(buffer_out, 0, sizeof(buffer_out));
-
-	/* read into buffer from socket file descriptor*/
-	n = read(sock_fd, buffer_in, sizeof(buffer_in));
-
-	if(n<0)
-	{
-		perror("Error reading from client socket");
-		exit(0);
-	}
-
-	if(is_view_or_bid(buffer_in))
-	{
-		/* write buffer to the file */
-		if(time_in_sec() < 20)
-		{
-			n = make_bid(buffer_in, strlen(buffer_in));
-			return n;
-		}
-
-	}
-
-	else
-	{
-		/* read bids from file and write back to client */
-		if(time_in_sec()>30)
-		{
-			get_bids(&buffer_out);
-			n = write(sock_fd, buffer_out, sizeof(buffer_out));
-			return n;
-		}
-	}
-}
 
 int main(int argc, char *argv[])
 {
