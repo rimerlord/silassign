@@ -1,0 +1,6 @@
+openssl pkcs12 -in server.cert.p12 -clcerts -nokeys -out server.pem
+openssl x509 -pubkey -in server.pem -noout > serverpub.pem
+openssl dgst -sha256 -sign privkey.pem -out signature.sign data.txt 
+cat signature.sign 
+openssl dgst -sha256 -verify serverpub.pem -signature signature.sign data.txt
+

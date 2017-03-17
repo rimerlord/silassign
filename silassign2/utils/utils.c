@@ -25,7 +25,7 @@
 /*{*/
 /*	/**/
 /*	 * verify code here */
-/*	 */*/
+///*	 */*/
 /*	return 1;*/
 /*}*/
 
@@ -115,22 +115,22 @@ void kxchg(int sock_fd)
 
 /*int is_view_or_bid(char *buffer)*/
 /*{*/
-/*	/* returns 1 if bidder identified */*/
+///*	/* returns 1 if bidder identified */*/
 /*	return 1;*/
 /*}*/
 
 /*int doprocessing(int sock_fd)*/
 /*{*/
 /*	int n;*/
-/*	/* create buffers */*/
+///*	/* create buffers */*/
 /*	char *buffer_in = (char *)malloc(256*sizeof(char));*/
 /*	char *buffer_out = (char *)malloc(256*sizeof(char));*/
 /*	*/
-/*	/*fill buffers with zeroes*/*/
+///*	/*fill buffers with zeroes*/*/
 /*	buffer_in = memset(buffer_in, 0, sizeof(buffer_in));*/
 /*	buffer_out = memset(buffer_out, 0, sizeof(buffer_out));*/
 
-/*	/* read into buffer_in from socket file descriptor*/*/
+///*	/* read into buffer_in from socket file descriptor*/*/
 /*	n = read(sock_fd, buffer_in, sizeof(buffer_in));*/
 
 /*	if(n<0)*/
@@ -141,7 +141,7 @@ void kxchg(int sock_fd)
 
 /*	if(is_view_or_bid(buffer_in))*/
 /*	{*/
-/*		/* write buffer to the file */*/
+///*		/* write buffer to the file */*/
 /*		if(time_in_sec() < 20)*/
 /*		{*/
 /*			n = make_bid(buffer_in, strlen(buffer_in));*/
@@ -152,7 +152,7 @@ void kxchg(int sock_fd)
 
 /*	else*/
 /*	{*/
-/*		/* read bids from file and write back to client */*/
+///*		/* read bids from file and write back to client */*/
 /*		if(time_in_sec()>30)*/
 /*		{*/
 /*			get_bids(&buffer_out);*/

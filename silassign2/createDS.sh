@@ -46,3 +46,16 @@ openssl pkcs12 -passout pass:bidder1 -export -in bidder1/bidder1.cert -out bidde
 openssl pkcs12 -passout pass:bidder2 -export -in bidder2/bidder2.cert -out bidder2/bidder2.cert.p12 -inkey bidder2/bidder2.key
 openssl pkcs12 -passout pass:viewer -export -in viewer/viewer.cert -out viewer/viewer.cert.p12 -inkey viewer/viewer.key
 ##Repeat this step to create as many digital certificates as needed for testing. Keep the key files secure, and delete them when they are no longer needed. Do not delete the CA private key file. You need the CA private key file to sign certificates
+####################################################################################################
+##Create Public keys for all users and save it in public folder which is accessible to all users
+####################################################################################################
+mkdir public
+openssl pkcs12 -passin pass:server -in server/server.cert.p12 -clcerts -nokeys -out public/serverpub.pem
+openssl pkcs12 -passin pass:bidder1 -in bidder1/bidder1.cert.p12 -clcerts -nokeys -out public/bidder1pub.pem
+openssl pkcs12 -passin pass:bidder2 -in bidder2/bidder2.cert.p12 -clcerts -nokeys -out public/bidder2pub.pem
+openssl pkcs12 -passin pass:viewer -in viewer/viewer.cert.p12 -clcerts -nokeys -out public/viewerpub.pem
+#create usable public keys
+openssl x509 -pubkey -in public/serverpub.pem -noout > public/server.pub.pem
+openssl x509 -pubkey -in public/bidder1pub.pem -noout > public/bidder1.pub.pem
+openssl x509 -pubkey -in public/bidder2pub.pem -noout > public/bidder2.pub.pem
+openssl x509 -pubkey -in public/viewerpub.pem -noout > public/viewer.pub.pem
